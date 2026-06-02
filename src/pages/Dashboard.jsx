@@ -10,10 +10,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchJourneys();
-  }, []);
-
-  const fetchJourneys = async () => {
+     const fetchJourneys = async () => {
     try {
       const data = await journeyAPI.getAllJourneys();
       setJourneys(data);
@@ -23,6 +20,10 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+    fetchJourneys();
+  }, []);
+
+
 
   const handleDelete = async (journeyId) => {
     if (!window.confirm('Are you sure you want to delete this journey?')) {
