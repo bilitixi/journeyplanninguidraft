@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:5000';
+const API_BASE_URL = 'https://journey-planning-k4jt8stak-bilitixis-projects.vercel.app/';
 
 // Helper function to get the token from localStorage
 const getToken = () => {
