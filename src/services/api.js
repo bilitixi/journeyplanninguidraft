@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://journey-planning-k4jt8stak-bilitixis-projects.vercel.app/';
+const API_BASE_URL = 'https://journeyplanningapi.onrender.com';
 
 // Helper function to get the token from localStorage
 const getToken = () => {
