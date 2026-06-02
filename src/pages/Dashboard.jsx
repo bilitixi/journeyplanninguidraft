@@ -81,7 +81,7 @@ const Dashboard = () => {
               className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
             >
               <Plus className="w-5 h-5" />
-                Create Your First Journey
+                   Create Your First Journey
             </button>
           </div>
         ) : (
