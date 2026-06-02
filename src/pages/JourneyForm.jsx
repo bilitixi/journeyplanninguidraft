@@ -45,23 +45,7 @@ const JourneyForm = () => {
   fetchJourney();
   }, [journeyId, isEditing]);
 
-  const fetchJourney = async () => {
-    try {
-      const data = await journeyAPI.getJourneyById(journeyId);
-      setFormData({
-        destination: data.destination,
-        start_date: data.start_date,
-        end_date: data.end_date,
-        budget: data.budget,
-        people: data.people,
-        notes: data.notes || '',
-      });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setFetchLoading(false);
-    }
-  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
