@@ -16,10 +16,7 @@ const JourneyDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchJourney();
-  }, [journeyId]);
-
-  const fetchJourney = async () => {
+    const loadJourney = async () => {
     try {
       const data = await journeyAPI.getJourneyById(journeyId);
       setJourney(data);
@@ -29,6 +26,11 @@ const JourneyDetail = () => {
       setLoading(false);
     }
   };
+
+  loadJourney();
+  }, [journeyId]);
+
+
 
   const fetchWeather = async () => {
     setWeatherLoading(true);
