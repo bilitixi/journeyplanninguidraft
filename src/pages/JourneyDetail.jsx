@@ -14,6 +14,8 @@ const JourneyDetail = () => {
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendationsLoading, setRecommendationsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [weatherError, setWeatherError] = useState('');
+  const [recommendationsError, setRecommendationsError] = useState('');
 
   useEffect(() => {
     const loadJourney = async () => {
@@ -38,7 +40,7 @@ const JourneyDetail = () => {
       const data = await weatherAPI.getWeatherForecast(journeyId);
       setWeather(data);
     } catch (err) {
-      setError(err.message);
+      setWeatherError(err.message);
     } finally {
       setWeatherLoading(false);
     }
@@ -50,7 +52,7 @@ const JourneyDetail = () => {
       const data = await recommendationsAPI.getRecommendations(journeyId);
       setRecommendations(data);
     } catch (err) {
-      setError(err.message);
+      setRecommendationsError(err.message);
     } finally {
       setRecommendationsLoading(false);
     }
@@ -199,6 +201,8 @@ const JourneyDetail = () => {
                 ))}
               </div>
             </div>
+          ) :weatherError ? (
+            <p className="text-gray-500 text-center py-8">{weatherError}</p>
           ) : (
             <p className="text-gray-500 text-center py-8">Click "Get Weather" to see the forecast for your journey</p>
           )}
@@ -241,6 +245,8 @@ const JourneyDetail = () => {
                 ))}
               </ul>
             </div>
+          ) : recommendationsError ? (
+            <p className="text-gray-500 text-center py-8">{recommendationsError}</p>
           ) : (
             <p className="text-gray-500 text-center py-8">Click "Get Recommendations" to receive AI-powered travel suggestions</p>
           )}
