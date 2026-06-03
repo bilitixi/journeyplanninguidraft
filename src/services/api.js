@@ -91,6 +91,42 @@ export const authAPI = {
   isAuthenticated: () => {
     return !!getToken();
   },
+
+  verifyEmail: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/api/auth/verify-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Email verification failed');
+    }
+
+    return data;
+  },
+
+  resendVerification: async (email) => {
+    const response = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to resend verification email');
+    }
+
+    return data;
+  },
 };
 
 // Journey API

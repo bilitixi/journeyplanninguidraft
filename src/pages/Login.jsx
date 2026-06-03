@@ -21,7 +21,11 @@ const Login = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message);
+      if (err.message === 'Please verify your email before logging in') {
+        setError('Please verify your email before logging in. Check your email or request a new verification link.');
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -88,6 +92,13 @@ const Login = () => {
           Don't have an account?{' '}
           <Link to="/register" className="text-indigo-600 font-semibold hover:underline">
             Sign up
+          </Link>
+        </p>
+
+        <p className="text-center mt-2 text-gray-600">
+          Need to verify your email?{' '}
+          <Link to="/verify-email" className="text-indigo-600 font-semibold hover:underline">
+            Verify here
           </Link>
         </p>
       </div>

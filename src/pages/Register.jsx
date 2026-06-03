@@ -21,7 +21,7 @@ const Register = () => {
 
     try {
       await register(firstName, lastName, email, password);
-      navigate('/login');
+      navigate('/verify-email');
     } catch (err) {
       setError(err.message);
     } finally {
