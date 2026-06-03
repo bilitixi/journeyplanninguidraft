@@ -1,31 +1,25 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router';
-import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router';
+import { authAPI } from '../services/api';
 import { Plane } from 'lucide-react';
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
     setLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/dashboard');
+      await authAPI.forgotPassword(email);
+      setSuccess(true);
     } catch (err) {
-      if (err.message === 'Please verify your email before logging in') {
-        setError('Please verify your email before logging in. Check your email or request a new verification link.');
-      } else {
-        setError(err.message);
-      }
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -38,13 +32,19 @@ const Login = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-full mb-4">
             <Plane className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
-          <p className="text-gray-600 mt-2">Sign in to your Journey Planning account</p>
+          <h1 className="text-3xl font-bold text-gray-900">Forgot Password</h1>
+          <p className="text-gray-600 mt-2">Enter your email to receive a password reset link</p>
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
             {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            If the email exists, a password reset link has been sent to your email address.
           </div>
         )}
 
@@ -64,46 +64,19 @@ const Login = () => {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-              placeholder="••••••••"
-            />
-            <div className="text-right mt-2">
-              <Link to="/forgot-password" className="text-sm text-indigo-600 hover:underline">
-                Forgot password?
-              </Link>
-            </div>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Sending...' : 'Send Reset Link'}
           </button>
         </form>
 
         <p className="text-center mt-6 text-gray-600">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-indigo-600 font-semibold hover:underline">
-            Sign up
-          </Link>
-        </p>
-
-        <p className="text-center mt-2 text-gray-600">
-          Need to verify your email?{' '}
-          <Link to="/verify-email" className="text-indigo-600 font-semibold hover:underline">
-            Verify here
+          Remember your password?{' '}
+          <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+            Sign in
           </Link>
         </p>
       </div>
@@ -111,4 +84,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import VerifyEmail from './pages/VerifyEmail';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import JourneyForm from './pages/JourneyForm';
 import JourneyDetail from './pages/JourneyDetail';
@@ -71,6 +73,15 @@ function App() {
               }
             />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route
+              path="/forgot-password"
+              element={
+                <PublicRoute>
+                  <ForgotPassword />
+                </PublicRoute>
+              }
+            />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/dashboard"
               element={
