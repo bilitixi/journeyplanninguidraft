@@ -5,7 +5,6 @@ import { Mail, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
-  const [token, setToken] = useState('');
   const [status, setStatus] = useState('idle'); // idle, verifying, success, error
   const [message, setMessage] = useState('');
   const [resendEmail, setResendEmail] = useState('');
@@ -15,7 +14,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const tokenFromUrl = searchParams.get('token');
     if (tokenFromUrl) {
-      setToken(tokenFromUrl);
+
       handleVerification(tokenFromUrl);
     }
   }, [searchParams]);
@@ -32,15 +31,7 @@ const VerifyEmail = () => {
     }
   };
 
-  const handleManualVerify = async (e) => {
-    e.preventDefault();
-    if (!token.trim()) {
-      setMessage('Please enter the verification token');
-      setStatus('error');
-      return;
-    }
-    handleVerification(token);
-  };
+
 
   const handleResendVerification = async (e) => {
     e.preventDefault();
