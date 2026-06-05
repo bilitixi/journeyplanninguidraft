@@ -97,41 +97,15 @@ const VerifyEmail = () => {
         {status === 'idle' && (
           <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-6 rounded-lg mb-6">
             <p className="text-sm">
-              If you have a verification token from your email, you can enter it below. 
-              Or request a new verification email.
+              If you need tp verify your email, you can enter your verify email below and request verification email.
             </p>
           </div>
         )}
 
         <div className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Enter Verification Token</h3>
-            <form onSubmit={handleManualVerify} className="space-y-4">
-              <div>
-                <label htmlFor="token" className="block text-sm font-medium text-gray-700 mb-2">
-                  Verification Token
-                </label>
-                <input
-                  id="token"
-                  type="text"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                  placeholder="Enter token from email"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={status === 'verifying'}
-                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {status === 'verifying' ? 'Verifying...' : 'Verify Email'}
-              </button>
-            </form>
-          </div>
 
           <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Resend Verification Email</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Send Verification Email</h3>
             <form onSubmit={handleResendVerification} className="space-y-4">
               <div>
                 <label htmlFor="resendEmail" className="block text-sm font-medium text-gray-700 mb-2">
