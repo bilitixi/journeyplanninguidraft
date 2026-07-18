@@ -202,7 +202,11 @@ const JourneyDetail = () => {
               </div>
             </div>
           ) :weatherError ? (
-            <p className="text-gray-500 text-center py-8">{weatherError}</p>
+            <p className="text-gray-500 text-center py-8">
+              {weatherError.toLowerCase().includes('no forecast data available')
+                ? 'No forecast data available for the selected dates, please choose the start date as today\'s date to ensure data availability'
+                : weatherError}
+            </p>
           ) : (
             <p className="text-gray-500 text-center py-8">Click "Get Weather" to see the forecast for your journey</p>
           )}
