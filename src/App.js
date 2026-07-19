@@ -8,6 +8,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
+import AccountSettings from './pages/AccountSettings';
 import JourneyForm from './pages/JourneyForm';
 import JourneyDetail from './pages/JourneyDetail';
 
@@ -111,6 +112,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <JourneyDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <AccountSettings />
                 </ProtectedRoute>
               }
             />
