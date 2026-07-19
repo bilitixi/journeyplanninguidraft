@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { journeyAPI, weatherAPI, recommendationsAPI } from '../services/api';
-import { Calendar, DollarSign, Users, ArrowLeft, Cloud, Sparkles, Thermometer, Droplets } from 'lucide-react';
+import { Calendar, DollarSign, Users, ArrowLeft, Cloud, Sparkles, Thermometer, Droplets, RefreshCw } from 'lucide-react';
 
 const JourneyDetail = () => {
   const { journeyId } = useParams();
   const navigate = useNavigate();
 
+  const weatherCacheKey = `journey_weather_${journeyId}`;
+  const recommendationsCacheKey = `journey_recommendations_${journeyId}`;
+
   const [journey, setJourney] = useState(null);
-  const [weather, setWeather] = useState(null);
-  const [recommendations, setRecommendations] = useState(null);
+  const [weather, setWeather] = useState(() => {
+    const cached = sessionStorage.getItem(weatherCacheKey);
+    return cached ? JSON.parse(cached) : null;
+  });
+  const [recommendations, setRecommendations] = useState(() => {
+    const cached = sessionStorage.getItem(recommendationsCacheKey);
+    return cached ? JSON.parse(cached) : null;
+  });
   const [loading, setLoading] = useState(true);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendationsLoading, setRecommendationsLoading] = useState(false);
@@ -39,6 +48,7 @@ const JourneyDetail = () => {
     try {
       const data = await weatherAPI.getWeatherForecast(journeyId);
       setWeather(data);
+      sessionStorage.setItem(weatherCacheKey, JSON.stringify(data));
     } catch (err) {
       setWeatherError(err.message);
     } finally {
@@ -51,6 +61,7 @@ const JourneyDetail = () => {
     try {
       const data = await recommendationsAPI.getRecommendations(journeyId);
       setRecommendations(data);
+      sessionStorage.setItem(recommendationsCacheKey, JSON.stringify(data));
     } catch (err) {
       setRecommendationsError(err.message);
     } finally {
@@ -160,13 +171,22 @@ const JourneyDetail = () => {
               <Cloud className="w-6 h-6 text-indigo-500" />
               <h2 className="text-xl font-bold text-gray-900">Weather Forecast in the 5 days range</h2>
             </div>
-            {!weather && (
+            {!weather ? (
               <button
                 onClick={fetchWeather}
                 disabled={weatherLoading}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {weatherLoading ? 'Loading...' : 'Get Weather'}
+              </button>
+            ) : (
+              <button
+                onClick={fetchWeather}
+                disabled={weatherLoading}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <RefreshCw className={`w-4 h-4 ${weatherLoading ? 'animate-spin' : ''}`} />
+                {weatherLoading ? 'Refreshing...' : 'Refresh'}
               </button>
             )}
           </div>
@@ -219,13 +239,22 @@ const JourneyDetail = () => {
               <Sparkles className="w-6 h-6 text-indigo-500" />
               <h2 className="text-xl font-bold text-gray-900">AI Recommendations</h2>
             </div>
-            {!recommendations && (
+            {!recommendations ? (
               <button
                 onClick={fetchRecommendations}
                 disabled={recommendationsLoading}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {recommendationsLoading ? 'Generating...' : 'Get Recommendations'}
+              </button>
+            ) : (
+              <button
+                onClick={fetchRecommendations}
+                disabled={recommendationsLoading}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <RefreshCw className={`w-4 h-4 ${recommendationsLoading ? 'animate-spin' : ''}`} />
+                {recommendationsLoading ? 'Regenerating...' : 'Regenerate'}
               </button>
             )}
           </div>
