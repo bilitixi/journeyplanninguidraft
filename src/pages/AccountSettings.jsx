@@ -10,7 +10,6 @@ const AccountSettings = () => {
   const [formData, setFormData] = useState({
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
-    email: user?.email || '',
     password: '',
     current_password: '',
   });
@@ -33,20 +32,20 @@ const AccountSettings = () => {
     setError('');
     setSuccess('');
 
-    const emailChanged = formData.email !== user?.email;
     const passwordChanged = formData.password.length > 0;
 
-    if ((emailChanged || passwordChanged) && !formData.current_password) {
-      setError('Current password is required to change your email or password');
+    if (passwordChanged && !formData.current_password) {
+      setError('Current password is required to change your password');
       return;
     }
 
     const updates = {};
     if (formData.first_name !== user?.first_name) updates.first_name = formData.first_name;
     if (formData.last_name !== user?.last_name) updates.last_name = formData.last_name;
-    if (emailChanged) updates.email = formData.email;
-    if (passwordChanged) updates.password = formData.password;
-    if (emailChanged || passwordChanged) updates.current_password = formData.current_password;
+    if (passwordChanged) {
+      updates.password = formData.password;
+      updates.current_password = formData.current_password;
+    }
 
     if (Object.keys(updates).length === 0) {
       setError('No changes to save');
@@ -159,12 +158,13 @@ const AccountSettings = () => {
                   id="email"
                   name="email"
                   type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  value={user?.email || ''}
+                  disabled
+                  readOnly
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 bg-gray-100 text-gray-500 rounded-lg cursor-not-allowed"
                 />
               </div>
+              <p className="text-xs text-gray-500 mt-1">Your email address cannot be changed.</p>
             </div>
 
             <div>
@@ -187,7 +187,7 @@ const AccountSettings = () => {
 
             <div>
               <label htmlFor="current_password" className="block text-sm font-medium text-gray-700 mb-2">
-                Current Password (required to change email or password)
+                Current Password (required to change your password)
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -197,7 +197,8 @@ const AccountSettings = () => {
                   type="password"
                   value={formData.current_password}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  disabled={formData.password.length === 0}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="••••••••"
                 />
               </div>
