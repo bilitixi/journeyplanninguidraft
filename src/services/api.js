@@ -163,6 +163,30 @@ export const authAPI = {
 
     return data;
   },
+
+  updateAccount: async (updates) => {
+    const data = await authenticatedRequest('/api/auth/me', {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+
+    // Keep the locally cached user in sync with the server
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    return data;
+  },
+
+  deleteAccount: async (currentPassword) => {
+    const data = await authenticatedRequest('/api/auth/me', {
+      method: 'DELETE',
+      body: JSON.stringify({ current_password: currentPassword }),
+    });
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    return data;
+  },
 };
 
 // Journey API

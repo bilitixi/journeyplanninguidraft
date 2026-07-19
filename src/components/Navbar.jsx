@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import { Plane, LogOut, User } from 'lucide-react';
+import { Plane, LogOut, User, Settings } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -31,10 +31,20 @@ const Navbar = () => {
 
           {isAuthenticated && (
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-gray-600">
+              <button
+                onClick={() => navigate('/account')}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors"
+              >
                 <User className="w-5 h-5" />
                 <span className="font-medium">{user?.first_name} {user?.last_name}</span>
-              </div>
+              </button>
+              <button
+                onClick={() => navigate('/account')}
+                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Account</span>
+              </button>
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"

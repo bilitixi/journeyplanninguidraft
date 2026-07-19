@@ -32,11 +32,25 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateAccount = async (updates) => {
+    const data = await authAPI.updateAccount(updates);
+    setUser(data.user);
+    return data;
+  };
+
+  const deleteAccount = async (currentPassword) => {
+    const data = await authAPI.deleteAccount(currentPassword);
+    setUser(null);
+    return data;
+  };
+
   const value = {
     user,
     login,
     register,
     logout,
+    updateAccount,
+    deleteAccount,
     isAuthenticated: !!user,
     loading,
   };
