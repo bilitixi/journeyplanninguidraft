@@ -7,9 +7,18 @@ const JourneyDetail = () => {
   const { journeyId } = useParams();
   const navigate = useNavigate();
 
+  const weatherCacheKey = `journey_weather_${journeyId}`;
+  const recommendationsCacheKey = `journey_recommendations_${journeyId}`;
+
   const [journey, setJourney] = useState(null);
-  const [weather, setWeather] = useState(null);
-  const [recommendations, setRecommendations] = useState(null);
+  const [weather, setWeather] = useState(() => {
+    const cached = sessionStorage.getItem(weatherCacheKey);
+    return cached ? JSON.parse(cached) : null;
+  });
+  const [recommendations, setRecommendations] = useState(() => {
+    const cached = sessionStorage.getItem(recommendationsCacheKey);
+    return cached ? JSON.parse(cached) : null;
+  });
   const [loading, setLoading] = useState(true);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendationsLoading, setRecommendationsLoading] = useState(false);
@@ -39,6 +48,7 @@ const JourneyDetail = () => {
     try {
       const data = await weatherAPI.getWeatherForecast(journeyId);
       setWeather(data);
+      sessionStorage.setItem(weatherCacheKey, JSON.stringify(data));
     } catch (err) {
       setWeatherError(err.message);
     } finally {
@@ -51,6 +61,7 @@ const JourneyDetail = () => {
     try {
       const data = await recommendationsAPI.getRecommendations(journeyId);
       setRecommendations(data);
+      sessionStorage.setItem(recommendationsCacheKey, JSON.stringify(data));
     } catch (err) {
       setRecommendationsError(err.message);
     } finally {
