@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://journeyplanningapi.onrender.com" }
+    { "source": "/api/(.*)", "destination": "https://journeyplanningapi-net.onrender.com" }
   ]
 }

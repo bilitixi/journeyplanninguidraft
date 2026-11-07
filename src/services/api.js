@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://journeyplanningapi.onrender.com';
+const API_BASE_URL = 'https://journeyplanningapi-net.onrender.com';
 
 // Helper function to get the token from localStorage
 const getToken = () => {

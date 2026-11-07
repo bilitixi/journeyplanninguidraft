@@ -3,7 +3,7 @@
 ## Overview
 This document provides comprehensive API specifications for the Journey Planning Flask backend, designed for integration with a React frontend application.
 
-**Base URL:** `https://journeyplanningapi.onrender.com`
+**Base URL:** `https://journeyplanningapi-net.onrender.com`
 
 **Authentication:** JWT Token-based authentication
 
